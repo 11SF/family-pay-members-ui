@@ -2,11 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-} */
+:root {
+  background-color: #f4f4f4;
+}
 
 @media (prefers-color-scheme: dark) {
   /* :root {
@@ -16,7 +14,13 @@
   } */
 }
 
-body {
-  color: #000;
-  background-color: #f4f4f4;
-}
+/* body { */
+  /* color: #000; */
+  /* background-color: #eff1fe; */
+/* } */
+
+/* .header#main {
+  background-image: url('/public/blurry-gradient-haikei.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+} */
