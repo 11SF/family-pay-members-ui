@@ -1,6 +1,6 @@
 import spotifyLogo from "@/assets/Spotify_logo.svg";
 import youTubePremiumLogo from "@/assets/YouTube_Premium_logo.svg";
-import { FamilyDetail } from "@/models/api/familyDetail";
+import { FamilyDetail } from "@/models/family";
 import Image from "next/image";
 
 interface propsType {
