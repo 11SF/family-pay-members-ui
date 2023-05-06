@@ -13,7 +13,7 @@ export default function QrPayment({ payload }: propsType) {
         level: "M",
         margin: 3,
         scale: 4,
-        width: 200,
+        // width: 200,
         color: {
           dark: "#000",
           light: "#FFF",

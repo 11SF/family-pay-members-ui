@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   background-color: #f4f4f4;
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   /* :root {

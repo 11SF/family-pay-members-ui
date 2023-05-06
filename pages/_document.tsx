@@ -1,56 +1,43 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 export default function Document() {
   return (
-    <Html lang="en" data-theme="cmyk">
+    <Html lang="en" data-theme="emerald">
       <Head />
-      <body className="bg-base-100">
+      <body>
         <Main />
         <NextScript />
-        <Script src="/finisher-header.es5.min" type="text/javascript" />
-        <Script type="text/javascript">
-        {
-          // new FinisherHeader({
-          //   "count": 4,
-          //   "size": {
-          //     "min": 1200,
-          //     "max": 1500,
-          //     "pulse": 0.1
-          //   },
-          //   "speed": {
-          //     "x": {
-          //       "min": 0,
-          //       "max": 0.2
-          //     },
-          //     "y": {
-          //       "min": 0,
-          //       "max": 0.2
-          //     }
-          //   },
-          //   "colors": {
-          //     "background": "#ab51ff",
-          //     "particles": [
-          //       "#ff636b",
-          //       "#fbff56",
-          //       "#ffc648",
-          //       "#ff77ff"
-          //     ]
-          //   },
-          //   "blending": "lighten",
-          //   "opacity": {
-          //     "center": 0.8,
-          //     "edge": 0.2
-          //   },
-          //   "skew": -2,
-          //   "shapes": [
-          //     "c",
-          //     "t"
-          //   ]
-          // });
-        }
-        </Script>
       </body>
     </Html>
   );
 }
+
+// "light",
+//       "dark",
+//       "cupcake",
+//       "bumblebee",
+//       "emerald",
+//       "corporate",
+//       "synthwave",
+//       "retro",
+//       "cyberpunk",
+//       "valentine",
+//       "halloween",
+//       "garden",
+//       "forest",
+//       "aqua",
+//       "lofi",
+//       "pastel",
+//       "fantasy",
+//       "wireframe",
+//       "black",
+//       "luxury",
+//       "dracula",
+//       "cmyk",
+//       "autumn",
+//       "business",
+//       "acid",
+//       "lemonade",
+//       "night",
+//       "coffee",
+//       "winter",
