@@ -1,5 +1,4 @@
-import { Member } from "@/models/api/member";
-import { useState } from "react";
+import { Member } from "@/models/family";
 
 interface propsType {
   members: Member[];
@@ -7,8 +6,8 @@ interface propsType {
 
 export default function DueDateListCard({ members }: propsType) {
   return (
-    <div className="card lg:w-[32rem] xl:w-7/12 h-fit  bg-base-100 shadow-lg px-12 py-5">
-      <p className="text-2xl font-medium">ถึงเวลาจ่ายละจ้าาาาา</p>
+    <div className="card lg:w-[32rem] xl:w-7/12 h-fit  bg-base-100 shadow-lg px-5 lg:px-12 py-5">
+      <p className="text-2xl font-medium">ถึงเวลาจ่ายละจ้าาาาา 🎉</p>
       <div className="my-10 divide-y">
         {members.map((e) => (
           <div
@@ -21,7 +20,7 @@ export default function DueDateListCard({ members }: propsType) {
                   <img src={e.imageSrc} className="w-fit h-fit" />
                 </div>
               </div>
-              <div className="text-2xl">{e.name}</div>
+              <div className="text-lg md:text-2xl">{e.name}</div>
             </div>
             <div className="hover:scale-105 hover:bg-base-200 ease-in-out p-2 rounded-full duration-150">
               <svg

@@ -106,7 +106,7 @@ export let mock = {
 };
 
 
-export const getFamilyByToken = async (token: string) => {
+export const fetchFamilyByToken = async (token: string) => {
 
     return axiosInstance.get("/member/get/family", {
         params: {
