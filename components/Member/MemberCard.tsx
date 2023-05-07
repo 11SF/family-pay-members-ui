@@ -1,4 +1,4 @@
-import { Member } from "@/models/api/member";
+import { Member } from "@/models/family";
 
 interface propsType {
   member: Member;
