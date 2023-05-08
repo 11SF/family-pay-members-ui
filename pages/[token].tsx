@@ -8,7 +8,7 @@ import NotFound from "@/components/shared/modal/NotFound";
 import { familyStore } from "@/stores/store";
 import { Kanit } from "next/font/google";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const kanit = Kanit({
   subsets: ["thai"],
@@ -17,22 +17,46 @@ const kanit = Kanit({
 
 export default function Home() {
   const familyDetail = familyStore((state) => state.familyDetail);
-  const isFetch = familyStore((state) => state.isFetch);
+  const isFetchStore = familyStore((state) => state.isFetch);
+  const isFetchFamily = familyStore((state) => state.isFetchFamily);
+  const isFetchTransaction = familyStore((state) => state.isFetchTransaction);
   const member = familyStore((state) => state.member);
   const paymentDetail = familyStore((state) => state.paymentDetail);
   const router = useRouter();
 
   const familyApiResponse = familyStore((state) => state.apiResponse);
   const fetchFamily = familyStore((state) => state.fetchFamily);
+  const fetchTransaction = familyStore((state) => state.fetchTransaction);
+  const transactions = familyStore((state) => state.transactions);
+  const getTransaction = familyStore((state) => state.getTransaction);
+
+  const [isFetch, setIsFetch] = useState(true);
   useEffect(() => {
     if (!familyApiResponse) {
       let token = router.query.token;
       if (token) {
         fetchFamily(token as string);
       }
-      console.log(token);
+      // console.log(token);
     }
   }, [router.query.token]);
+
+  useEffect(() => {
+    if (!transactions) {
+      fetchTransaction();
+    }
+  }, []);
+
+  useEffect(() => {
+    let token = router.query.token;
+    if (transactions && token) {
+      console.log(getTransaction({ familyId: token as string }));
+    }
+  }, [transactions]);
+
+  useEffect(() => {
+    setIsFetch(isFetchStore);
+  }, [isFetchFamily, isFetchTransaction]);
 
   return (
     <main className={`${kanit.className} bg-base-200`}>

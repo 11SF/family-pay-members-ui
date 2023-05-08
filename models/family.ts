@@ -1,5 +1,5 @@
 import { stringToDateType } from "@/utils/date";
-import { FamilyResponse } from "./api/family";
+import { FamilyResponse } from "./api/_family";
 
 export interface FamilyDetail {
     id: string;
