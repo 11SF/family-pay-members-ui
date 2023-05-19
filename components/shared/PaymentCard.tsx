@@ -63,7 +63,7 @@ export default function PaymentCard({ paymentDetail }: propsType) {
             <div className="flex flex-col justify-around font-medium text-sm lg:text-md">
               <p>จำนวน</p>
               <p>ราคา</p>
-              <p>ปลายทาง</p>
+              <p>Ref.</p>
             </div>
             <div className="flex flex-col justify-around text-end text-sm lg:text-md">
               <p>{priceSelected.month} เดือน</p>

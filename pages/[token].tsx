@@ -4,6 +4,8 @@ import FamilyCard from "@/components/shared/FamilyCard";
 import PaymentCard from "@/components/shared/PaymentCard";
 import Loading from "@/components/shared/modal/Loading";
 import NotFound from "@/components/shared/modal/NotFound";
+import { AverageInfo } from "@/models/achievement";
+import { initAchievement } from "@/services/calculateAchievement ";
 // import { getFamilyByToken, mock } from "@/services/family";
 import { familyStore } from "@/stores/store";
 import { Kanit } from "next/font/google";
@@ -26,33 +28,53 @@ export default function Home() {
 
   const familyApiResponse = familyStore((state) => state.apiResponse);
   const fetchFamily = familyStore((state) => state.fetchFamily);
+  const familyTokenSelected = familyStore((state) => state.familyTokenSelected);
   const fetchTransaction = familyStore((state) => state.fetchTransaction);
   const transactions = familyStore((state) => state.transactions);
-  const getTransaction = familyStore((state) => state.getTransaction);
+  const setMemberAchievement = familyStore(
+    (state) => state.setMemberAchievement
+  );
+  const getMemberAchievementByMemberId = familyStore(
+    (state) => state.getMemberAchievementByMemberId
+  );
+  const getMemberDueDateList = familyStore(
+    (state) => state.getMemberDueDateList
+  );
 
   const [isFetch, setIsFetch] = useState(true);
+  const [achievement, setAchievement] = useState<AverageInfo[]>([]);
   useEffect(() => {
     if (!familyApiResponse) {
       let token = router.query.token;
       if (token) {
         fetchFamily(token as string);
       }
-      // console.log(token);
     }
   }, [router.query.token]);
 
   useEffect(() => {
-    if (!transactions) {
-      // fetchTransaction();
+    if (transactions.length === 0 && !(familyTokenSelected === null || familyTokenSelected === "")) {
+      fetchTransaction();
     }
-  }, []);
+  }, [familyTokenSelected]);
 
   useEffect(() => {
     let token = router.query.token;
-    if (transactions && token) {
-      console.log(getTransaction({ familyId: token as string }));
+    if (
+      transactions.length > 0 &&
+      token &&
+      member.length > 0 &&
+      achievement.length === 0
+    ) {
+      setAchievement(initAchievement(member, transactions, token as string));
     }
   }, [transactions]);
+
+  useEffect(() => {
+    if (achievement.length > 0) {
+      setMemberAchievement(achievement);
+    }
+  }, [achievement]);
 
   useEffect(() => {
     setIsFetch(isFetchStore);
@@ -95,7 +117,10 @@ export default function Home() {
       ) : familyApiResponse ? (
         <>
           <section className="w-full container mx-auto pt-12 justify-between hidden lg:flex">
-            {member ? <DueDateListCard members={member} /> : null}
+            {/* {getMemberDueDateList() ? (
+              <DueDateListCard members={getMemberDueDateList()} />
+            ) : null} */}
+            <DueDateListCard members={getMemberDueDateList()} />
 
             <div className="w-4/12 min-w-[29rem] flex flex-col gap-10">
               {familyDetail ? <FamilyCard familyDetail={familyDetail} /> : null}
@@ -108,13 +133,15 @@ export default function Home() {
 
           <section className="w-full block lg:hidden">
             <div className="w-full h-48 mx-auto bg-primary text-base-100 flex flex-col justify-center items-center gap-10">
-              <p className="text-5xl text-center">{familyDetail?.familyName}</p>
+              <p className="text-[10vw] sm:text-5xl text-center">
+                {familyDetail?.familyName}
+              </p>
               <p className="text-lg text-center font-light">
                 จ่ายเงินทุกๆ วันที่ {familyDetail?.dueDate} ของเดือน
               </p>
             </div>
             <div className="container mx-auto my-10 flex flex-col gap-10">
-              {member ? <DueDateListCard members={member} /> : null}
+              <DueDateListCard members={getMemberDueDateList()} />
               {paymentDetail ? (
                 <PaymentCard paymentDetail={paymentDetail} />
               ) : null}
@@ -129,7 +156,11 @@ export default function Home() {
               {member ? (
                 <div className="flex flex-wrap gap-10 justify-center">
                   {member.map((e) => (
-                    <MemberCard member={e} key={e.id} />
+                    <MemberCard
+                      member={e}
+                      key={e.id}
+                      achievement={getMemberAchievementByMemberId(e.id)}
+                    />
                   ))}
                 </div>
               ) : null}

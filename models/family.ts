@@ -1,4 +1,5 @@
 import { stringToDateType } from "@/utils/date";
+import { Acheievement, AverageInfo } from "./achievement";
 import { FamilyResponse } from "./api/_family";
 
 export interface FamilyDetail {
@@ -16,6 +17,7 @@ export interface Member {
     imageSrc: string;
     lastDate: Date;
     expireDate: Date;
+    acheivement: Acheievement[]
 }
 
 export interface Price {
@@ -37,6 +39,7 @@ export function convertMemberApiToModel(response: FamilyResponse): Member[] {
             imageSrc: e.img_src ?? "",
             lastDate: stringToDateType(e.lastDate ?? ""),
             expireDate: stringToDateType(e.expireDate ?? ""),
+            acheivement: []
         })
     );
 }
@@ -50,6 +53,14 @@ export function convertFamilyDetailApiToModel(response: FamilyResponse): FamilyD
         platform: response.platform,
         token: response.token,
     }
+}
+
+export function convertMemberAchievementToModel(members: Member[], memberAchievement: AverageInfo[]): Member[] {
+    for (const member of members) {
+        let findMemberAch = memberAchievement.filter(e => e.memberId === member.id)
+        member.acheivement = findMemberAch[0].acheivements.map(e => ({ name: e }))
+    }
+    return members
 }
 
 export function convertPaymentDetailApiToModel(response: FamilyResponse): PaymentDetail {

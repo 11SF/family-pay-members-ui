@@ -1,9 +1,10 @@
 import { axiosInstance, axiosInstanceTransactionService } from "@/axiosInstance"
 import { TransactionResponse } from "@/models/api/_transaction"
 
-export const fetchTransaction = async () => {
+export const fetchTransaction = async (familyToken: string) => {
 
-    return axiosInstanceTransactionService.get("", {
+    return axiosInstanceTransactionService.get(`/${familyToken}`, {
+
     }).then((response): TransactionResponse[] | boolean => {
 
         if (response.status === 200) {

@@ -1,10 +1,26 @@
+import { MemberAcheievement } from "@/models/achievement";
 import { Member } from "@/models/family";
+import { familyStore } from "@/stores/store";
+import { useEffect, useState } from "react";
 
 interface propsType {
   member: Member;
+  achievement: MemberAcheievement | null;
 }
 
-export default function MemberCard({ member }: propsType) {
+export default function MemberCard({ member, achievement }: propsType) {
+  const getMemberAchievementByMemberId = familyStore(
+    (state) => state.getMemberAchievementByMemberId
+  );
+  const [_achievement, setAchievement] = useState<MemberAcheievement | null>(
+    null
+  );
+  useEffect(() => {
+    let result = getMemberAchievementByMemberId(member.id);
+    if (result) {
+      setAchievement(result);
+    }
+  }, [getMemberAchievementByMemberId(member.id)]);
   return (
     <div className="card bg-base-100 w-[28rem] p-10 hover:scale-105 hover:cursor-pointer ease-in-out duration-150">
       <div className="flex gap-10 items-center">
@@ -19,11 +35,19 @@ export default function MemberCard({ member }: propsType) {
       <div>
         <p className="mb-3">Achievement</p>
         <div className="flex gap-x-4">
-          <div className="badge badge-secondary text-white py-4">primary</div>
-          <div className="badge badge-secondary text-white py-4">primary</div>
-          <div className="badge badge-secondary text-white py-4">primary</div>
+          {_achievement
+            ? _achievement.acheievement.map((e, index) => (
+                <div
+                  className="badge badge-secondary text-white py-4"
+                  key={index}
+                >
+                  {e.name}
+                </div>
+              ))
+            : null}
         </div>
       </div>
     </div>
   );
 }
+// getMemberAchievementByMemberId
