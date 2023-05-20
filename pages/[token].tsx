@@ -6,7 +6,6 @@ import Loading from "@/components/shared/modal/Loading";
 import NotFound from "@/components/shared/modal/NotFound";
 import { AverageInfo } from "@/models/achievement";
 import { initAchievement } from "@/services/calculateAchievement ";
-// import { getFamilyByToken, mock } from "@/services/family";
 import { familyStore } from "@/stores/store";
 import { Kanit } from "next/font/google";
 import { useRouter } from "next/router";
@@ -40,33 +39,36 @@ export default function Home() {
   const getMemberDueDateList = familyStore(
     (state) => state.getMemberDueDateList
   );
+  const initFamilyTokenSelected = familyStore(
+    (state) => state.initFamilyTokenSelected
+  );
 
   const [isFetch, setIsFetch] = useState(true);
   const [achievement, setAchievement] = useState<AverageInfo[]>([]);
-  useEffect(() => {
-    if (!familyApiResponse) {
-      let token = router.query.token;
-      if (token) {
-        fetchFamily(token as string);
-      }
-    }
-  }, [router.query.token]);
-
-  useEffect(() => {
-    if (transactions.length === 0 && !(familyTokenSelected === null || familyTokenSelected === "")) {
-      fetchTransaction();
-    }
-  }, [familyTokenSelected]);
 
   useEffect(() => {
     let token = router.query.token;
+    initFamilyTokenSelected(token as string);
+  }, [router.query.token]);
+
+  useEffect(() => {
+    let token = router.query.token as string;
+    if (familyTokenSelected && familyTokenSelected === token) {
+      fetchFamily(familyTokenSelected);
+      fetchTransaction();
+    }
+  }, [familyTokenSelected, router.query.token]);
+
+  useEffect(() => {
     if (
       transactions.length > 0 &&
-      token &&
+      familyTokenSelected &&
       member.length > 0 &&
       achievement.length === 0
     ) {
-      setAchievement(initAchievement(member, transactions, token as string));
+      setAchievement(
+        initAchievement(member, transactions, familyTokenSelected)
+      );
     }
   }, [transactions]);
 

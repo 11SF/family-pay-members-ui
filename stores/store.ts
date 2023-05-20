@@ -22,6 +22,7 @@ interface FamilyState {
     getMemberAchievementByMemberId: (memberId: string) => MemberAcheievement | null
     getTransaction: (filters: transactionFilter) => Transaction[]
     getMemberDueDateList: () => Member[]
+    initFamilyTokenSelected: (token: string) => void
 
     isFetch: () => boolean
     isFetchFamily: boolean
@@ -47,7 +48,7 @@ const familyStore = create<FamilyState>()((set, get) => ({
             if (response._id) {
                 set({
                     apiResponse: response,
-                    familyTokenSelected: response.token,
+                    // familyTokenSelected: response.token,
                     familyDetail: convertFamilyDetailApiToModel(response),
                     member: convertMemberApiToModel(response),
                     paymentDetail: convertPaymentDetailApiToModel(response),
@@ -105,6 +106,29 @@ const familyStore = create<FamilyState>()((set, get) => ({
     getMemberDueDateList: (): Member[] => {
         let nowDate = new Date()
         return get().member.filter(e => e.expireDate.getTime() <= nowDate.getTime())
+    },
+    initFamilyTokenSelected: (queryToken: string) => {
+        let localToken = localStorage.getItem("_familyTokenSelected")
+
+        if (!localToken) {
+            localStorage.setItem("_familyTokenSelected", queryToken)
+            set({
+                familyTokenSelected: queryToken
+            })
+            return
+        }
+
+        if (queryToken && (queryToken !== get().familyTokenSelected || queryToken !== localToken)) {
+            localStorage.setItem("_familyTokenSelected", queryToken)
+            set({
+                familyTokenSelected: queryToken
+            })
+        } else {
+            set({
+                familyTokenSelected: localToken
+            })
+        }
+
     },
 
     isFetchFamily: false,
