@@ -1,5 +1,6 @@
 import DueDateListCard from "@/components/Member/DueDateListCard";
 import MemberCard from "@/components/Member/MemberCard";
+import MemberDetailCard from "@/components/Member/MemberDetailCard";
 import FamilyCard from "@/components/shared/FamilyCard";
 import PaymentCard from "@/components/shared/PaymentCard";
 import Loading from "@/components/shared/modal/Loading";
@@ -11,14 +12,19 @@ import { kanit } from "@/utils/fontsStyle";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function member() {
+  const router = useRouter();
+  const { id, token } = router.query;
+
+  const [isFetch, setIsFetch] = useState(true);
+  const [achievement, setAchievement] = useState<AverageInfo[]>([]);
+
   const familyDetail = familyStore((state) => state.familyDetail);
   const isFetchStore = familyStore((state) => state.isFetch);
   const isFetchFamily = familyStore((state) => state.isFetchFamily);
   const isFetchTransaction = familyStore((state) => state.isFetchTransaction);
   const member = familyStore((state) => state.member);
   const paymentDetail = familyStore((state) => state.paymentDetail);
-  const router = useRouter();
 
   const familyApiResponse = familyStore((state) => state.apiResponse);
   const fetchFamily = familyStore((state) => state.fetchFamily);
@@ -37,9 +43,6 @@ export default function Home() {
   const initFamilyTokenSelected = familyStore(
     (state) => state.initFamilyTokenSelected
   );
-
-  const [isFetch, setIsFetch] = useState(true);
-  const [achievement, setAchievement] = useState<AverageInfo[]>([]);
 
   useEffect(() => {
     let token = router.query.token;
@@ -87,7 +90,8 @@ export default function Home() {
             {/* {getMemberDueDateList() ? (
               <DueDateListCard members={getMemberDueDateList()} />
             ) : null} */}
-            <DueDateListCard members={getMemberDueDateList()} />
+            {/* <DueDateListCard members={getMemberDueDateList()} /> */}
+            <MemberDetailCard member={member[5]} />
 
             <div className="w-4/12 min-w-[29rem] flex flex-col gap-10">
               {familyDetail ? <FamilyCard familyDetail={familyDetail} /> : null}
@@ -108,7 +112,7 @@ export default function Home() {
               </p>
             </div>
             <div className="container mx-auto my-10 flex flex-col gap-10">
-              <DueDateListCard members={getMemberDueDateList()} />
+              <MemberDetailCard member={member[5]} />
               {paymentDetail ? (
                 <PaymentCard paymentDetail={paymentDetail} />
               ) : null}
@@ -116,7 +120,7 @@ export default function Home() {
           </section>
 
           <section className="w-full bg-neutral mt-8 flex justify-center">
-            <div className="h-full container mx-auto">
+            {/* <div className="h-full container mx-auto">
               <p className="text-3xl text-center my-10 text-white">
                 🌟 สมาชิกทั้งหมด 🌟
               </p>
@@ -131,7 +135,7 @@ export default function Home() {
                   ))}
                 </div>
               ) : null}
-            </div>
+            </div> */}
           </section>
         </>
       ) : (
