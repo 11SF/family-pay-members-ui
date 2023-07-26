@@ -14,7 +14,7 @@ import { kanit } from "@/utils/fontsStyle";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function member() {
+export default function Member() {
   const router = useRouter();
   const { id, token } = router.query;
 

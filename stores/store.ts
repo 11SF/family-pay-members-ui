@@ -5,7 +5,7 @@ import { FamilyDetail, Member, PaymentDetail, convertFamilyDetailApiToModel, con
 import { Transaction, convertTransactionApiToModel, transactionFilter } from "@/models/transaction"
 import { fetchFamilyByToken } from "@/services/family"
 import { fetchTransaction } from "@/services/transaction"
-import create from "zustand"
+import { create } from "zustand"
 
 
 interface FamilyState {
