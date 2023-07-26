@@ -65,7 +65,7 @@ export default function Home() {
         initAchievement(member, transactions, familyTokenSelected)
       );
     }
-  }, [transactions]);
+  }, [member, transactions]);
 
   useEffect(() => {
     if (achievement.length > 0) {

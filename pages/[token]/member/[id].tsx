@@ -6,8 +6,10 @@ import PaymentCard from "@/components/shared/PaymentCard";
 import Loading from "@/components/shared/modal/Loading";
 import NotFound from "@/components/shared/modal/NotFound";
 import { AverageInfo } from "@/models/achievement";
+import { Transaction } from "@/models/transaction";
 import { initAchievement } from "@/services/calculateAchievement ";
 import { familyStore } from "@/stores/store";
+import { getDateFormat } from "@/utils/date";
 import { kanit } from "@/utils/fontsStyle";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -18,6 +20,7 @@ export default function member() {
 
   const [isFetch, setIsFetch] = useState(true);
   const [achievement, setAchievement] = useState<AverageInfo[]>([]);
+  const [transaction, setTransaction] = useState<Transaction[]>([]);
 
   const familyDetail = familyStore((state) => state.familyDetail);
   const isFetchStore = familyStore((state) => state.isFetch);
@@ -29,6 +32,7 @@ export default function member() {
   const familyApiResponse = familyStore((state) => state.apiResponse);
   const fetchFamily = familyStore((state) => state.fetchFamily);
   const familyTokenSelected = familyStore((state) => state.familyTokenSelected);
+  const getTransaction = familyStore((state) => state.getTransaction);
   const fetchTransaction = familyStore((state) => state.fetchTransaction);
   const transactions = familyStore((state) => state.transactions);
   const setMemberAchievement = familyStore(
@@ -58,6 +62,8 @@ export default function member() {
   }, [familyTokenSelected, router.query.token]);
 
   useEffect(() => {
+    // console.log(transactions);
+
     if (
       transactions.length > 0 &&
       familyTokenSelected &&
@@ -67,8 +73,9 @@ export default function member() {
       setAchievement(
         initAchievement(member, transactions, familyTokenSelected)
       );
+      setTransaction(getTransaction({ memberId: member[5].id }));
     }
-  }, [transactions]);
+  }, [transactions, member]);
 
   useEffect(() => {
     if (achievement.length > 0) {
@@ -120,11 +127,11 @@ export default function member() {
           </section>
 
           <section className="w-full bg-neutral mt-8 flex justify-center">
-            {/* <div className="h-full container mx-auto">
+            <div className="h-full container mx-auto">
               <p className="text-3xl text-center my-10 text-white">
-                🌟 สมาชิกทั้งหมด 🌟
+                🌟 ประวัติการจ่ายเงิน 🌟
               </p>
-              {member ? (
+              {/* {member ? (
                 <div className="flex flex-wrap gap-10 justify-center">
                   {member.map((e) => (
                     <MemberCard
@@ -134,8 +141,33 @@ export default function member() {
                     />
                   ))}
                 </div>
-              ) : null}
-            </div> */}
+              ) : null} */}
+              <div className="overflow-x-auto">
+                <table className="table p-10 mx-auto">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th>วันที่</th>
+                      <th>ราคาจ่าย</th>
+                      <th>วันหมดอายุเดิม</th>
+                      <th>วันหมดอายุใหม่</th>
+                      <th>สถานะ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transaction.map((e) => (
+                      <tr key={e.id}>
+                        <th>{getDateFormat(new Date(e.createdAt ?? ""))}</th>
+                        <td>{e.price}</td>
+                        <td>{getDateFormat(new Date(e.oldExpireDate))}</td>
+                        <td>{getDateFormat(new Date(e.newExpireDate))}</td>
+                        <td>{e.status}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </section>
         </>
       ) : (

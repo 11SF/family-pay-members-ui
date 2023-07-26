@@ -12,6 +12,9 @@ export default function MemberCard({ member, achievement }: propsType) {
   const getMemberAchievementByMemberId = familyStore(
     (state) => state.getMemberAchievementByMemberId
   );
+  const memberAchievement = familyStore((state) => state.memberAchievement);
+
+  memberAchievement;
   const [_achievement, setAchievement] = useState<MemberAcheievement | null>(
     null
   );
@@ -20,7 +23,7 @@ export default function MemberCard({ member, achievement }: propsType) {
     if (result) {
       setAchievement(result);
     }
-  }, [getMemberAchievementByMemberId(member.id)]);
+  }, [memberAchievement]);
   return (
     <div className="card bg-base-100 w-[28rem] p-10 hover:scale-105 hover:cursor-pointer ease-in-out duration-150">
       <div className="flex gap-10 items-center">
@@ -34,7 +37,7 @@ export default function MemberCard({ member, achievement }: propsType) {
       <div className="divider"></div>
       <div>
         <p className="mb-3">Achievement</p>
-        <div className="flex gap-x-4">
+        <div className="flex gap-4 flex-wrap">
           {_achievement
             ? _achievement.acheievement.map((e, index) => (
                 <div
