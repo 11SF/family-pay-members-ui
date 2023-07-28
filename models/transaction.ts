@@ -2,7 +2,7 @@ import { TransactionResponse } from "./api/_transaction"
 
 export interface Transaction {
     id: number
-    createdAt: string | null
+    createdAt: string
     updatedAt: string | null
     deletedAt: string | null
     memberId: string

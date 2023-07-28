@@ -31,22 +31,42 @@ export default function MemberDetailCard({ member }: propsType) {
     }
   }, [transactions]);
 
+  const getCountdownExpire = (memberExpire: Date) => {
+    const now = new Date();
+
+    const diffTime = memberExpire.getTime() - now.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+  };
   return (
     <div className="card lg:w-[32rem] xl:w-7/12 h-fit  bg-base-100 shadow-lg px-5 lg:px-12 py-5">
       <div className="my-10 divide-x sm:flex hidden">
         <div className="w-5/12 flex flex-col gap-8 justify-center items-center">
           <div className="avatar">
-            <div className="w-36 rounded-full ring ring-warning ring-offset-base-100 ring-offset-2">
-              <img src={member.imageSrc} className="w-fit h-fit" />
-            </div>
+            {getCountdownExpire(member.expireDate) > 0 ? (
+              <div className="w-36 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src={member.imageSrc} className="w-fit h-fit" />
+              </div>
+            ) : (
+              <div className="w-36 rounded-full ring ring-warning ring-offset-base-100 ring-offset-2">
+                <img src={member.imageSrc} className="w-fit h-fit" />
+              </div>
+            )}
           </div>
           <div className="text-center w-full flex flex-col gap-3 items-center justify-center">
             <p className="text-lg md:text-2xl overflow-hidden mx-auto">
               {member.name}
             </p>
-            <div className="badge badge-warning text-white py-4 mx-auto">
-              ถึงเวลาจ่ายแล้วจ้าาา
-            </div>
+            {getCountdownExpire(member.expireDate) > 0 ? (
+              <div className="badge badge-primary text-white py-4 mx-auto">
+                จ่ายแล้วจ้าาาา
+              </div>
+            ) : (
+              <div className="badge badge-warning text-white py-4 mx-auto">
+                ถึงเวลาจ่ายแล้วจ้าาา
+              </div>
+            )}
           </div>
         </div>
         <div className="w-7/12 pl-5">
@@ -73,7 +93,7 @@ export default function MemberDetailCard({ member }: propsType) {
               </div>
               <div className="flex flex-col gap-2">
                 <p>{getDateFormat(member.expireDate)}</p>
-                <p>0 วัน</p>
+                <p>{getCountdownExpire(member.expireDate)} วัน</p>
               </div>
             </div>
           </div>
@@ -135,7 +155,7 @@ export default function MemberDetailCard({ member }: propsType) {
               </div>
               <div className="flex flex-col gap-2">
                 <p>{getDateFormat(member.expireDate)}</p>
-                <p>0 วัน</p>
+                <p>{getCountdownExpire(member.expireDate)} วัน</p>
               </div>
             </div>
           </div>

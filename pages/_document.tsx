@@ -3,7 +3,10 @@ import { Html, Head, Main, NextScript } from "next/document";
 export default function Document() {
   return (
     <Html lang="en" data-theme="emerald">
-      <Head />
+      <Head>
+        <title>Family Pay</title>
+        <link rel="icon" href="/app_logo.png" sizes="any" />
+      </Head>
       <body>
         <Main />
         <NextScript />
@@ -11,33 +14,3 @@ export default function Document() {
     </Html>
   );
 }
-
-// "light",
-//       "dark",
-//       "cupcake",
-//       "bumblebee",
-//       "emerald",
-//       "corporate",
-//       "synthwave",
-//       "retro",
-//       "cyberpunk",
-//       "valentine",
-//       "halloween",
-//       "garden",
-//       "forest",
-//       "aqua",
-//       "lofi",
-//       "pastel",
-//       "fantasy",
-//       "wireframe",
-//       "black",
-//       "luxury",
-//       "dracula",
-//       "cmyk",
-//       "autumn",
-//       "business",
-//       "acid",
-//       "lemonade",
-//       "night",
-//       "coffee",
-//       "winter",

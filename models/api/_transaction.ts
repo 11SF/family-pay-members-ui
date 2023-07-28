@@ -1,6 +1,6 @@
 export interface TransactionResponse {
     ID: number
-    CreatedAt: string | null
+    CreatedAt: string
     UpdatedAt: string | null
     DeletedAt: string | null
     member_id: string

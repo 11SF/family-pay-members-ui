@@ -73,7 +73,7 @@ export default function Member() {
       setAchievement(
         initAchievement(member, transactions, familyTokenSelected)
       );
-      setTransaction(getTransaction({ memberId: member[5].id }));
+      setTransaction(getTransaction({ memberId: id as string }));
     }
   }, [transactions, member]);
 
@@ -87,6 +87,18 @@ export default function Member() {
     setIsFetch(isFetchStore);
   }, [isFetchFamily, isFetchTransaction]);
 
+  const getMember = (id: string) => {
+    console.log(id);
+
+    let result = member.find((e) => e.id === (id as string));
+    console.log(result);
+
+    if (result) {
+      return result;
+    }
+    return null;
+  };
+
   return (
     <main className={`${kanit.className} bg-base-200`}>
       {isFetch ? (
@@ -98,7 +110,9 @@ export default function Member() {
               <DueDateListCard members={getMemberDueDateList()} />
             ) : null} */}
             {/* <DueDateListCard members={getMemberDueDateList()} /> */}
-            <MemberDetailCard member={member[5]} />
+            {getMember(id as string) ? (
+              <MemberDetailCard member={getMember(id as string) || member[0]} />
+            ) : null}
 
             <div className="w-4/12 min-w-[29rem] flex flex-col gap-10">
               {familyDetail ? <FamilyCard familyDetail={familyDetail} /> : null}
@@ -119,35 +133,28 @@ export default function Member() {
               </p>
             </div>
             <div className="container mx-auto my-10 flex flex-col gap-10">
-              <MemberDetailCard member={member[5]} />
+              {getMember(id as string) ? (
+                <MemberDetailCard
+                  member={getMember(id as string) || member[0]}
+                />
+              ) : null}
               {paymentDetail ? (
                 <PaymentCard paymentDetail={paymentDetail} />
               ) : null}
             </div>
           </section>
 
-          <section className="w-full bg-neutral mt-8 flex justify-center">
+          <section className="w-full bg-neutral mt-8 pb-24 flex justify-center">
             <div className="h-full container mx-auto">
               <p className="text-3xl text-center my-10 text-white">
-                🌟 ประวัติการจ่ายเงิน 🌟
+                🌟 ประวัติการจ่ายเงินของ {getMember(id as string)?.name} 🌟
               </p>
-              {/* {member ? (
-                <div className="flex flex-wrap gap-10 justify-center">
-                  {member.map((e) => (
-                    <MemberCard
-                      member={e}
-                      key={e.id}
-                      achievement={getMemberAchievementByMemberId(e.id)}
-                    />
-                  ))}
-                </div>
-              ) : null} */}
               <div className="overflow-x-auto">
-                <table className="table p-10 mx-auto">
+                <table className="table p-10 mx-auto w-full">
                   {/* head */}
                   <thead>
                     <tr>
-                      <th>วันที่</th>
+                      <th>วันที่จ่าย</th>
                       <th>ราคาจ่าย</th>
                       <th>วันหมดอายุเดิม</th>
                       <th>วันหมดอายุใหม่</th>
@@ -155,15 +162,44 @@ export default function Member() {
                     </tr>
                   </thead>
                   <tbody>
-                    {transaction.map((e) => (
-                      <tr key={e.id}>
-                        <th>{getDateFormat(new Date(e.createdAt ?? ""))}</th>
-                        <td>{e.price}</td>
-                        <td>{getDateFormat(new Date(e.oldExpireDate))}</td>
-                        <td>{getDateFormat(new Date(e.newExpireDate))}</td>
-                        <td>{e.status}</td>
-                      </tr>
-                    ))}
+                    {transaction
+                      .sort(
+                        (a, b) =>
+                          new Date(b.newExpireDate).getTime() -
+                          new Date(a.newExpireDate).getTime()
+                      )
+                      .map((e, i) => (
+                        <tr key={i}>
+                          <th>
+                            {i === 0 ? (
+                              <div className="flex gap-5 items-center">
+                                {getDateFormat(new Date(e.createdAt ?? ""))}
+                                <div className="badge badge-primary badge-xs text-white py-4">
+                                  ล่าสุด
+                                </div>
+                              </div>
+                            ) : (
+                              <div>
+                                {getDateFormat(new Date(e.createdAt ?? ""))}
+                              </div>
+                            )}
+                          </th>
+                          <td>{e.price}</td>
+                          <td>{getDateFormat(new Date(e.oldExpireDate))}</td>
+                          <td>{getDateFormat(new Date(e.newExpireDate))}</td>
+                          <td>
+                            {e.status === "active" ? (
+                              <div className="badge badge-success text-white py-4">
+                                {e.status}
+                              </div>
+                            ) : (
+                              <div className="badge badge-error text-white py-4">
+                                {e.status}
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>

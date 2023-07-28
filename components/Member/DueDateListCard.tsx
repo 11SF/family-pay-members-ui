@@ -1,10 +1,14 @@
 import { Member } from "@/models/family";
-
+import { familyStore } from "@/stores/store";
+import { useRouter } from "next/router";
 interface propsType {
   members: Member[];
 }
 
 export default function DueDateListCard({ members }: propsType) {
+  const router = useRouter();
+  const familyDetail = familyStore((state) => state.familyDetail);
+
   return (
     <div className="card lg:w-[32rem] xl:w-7/12 h-fit  bg-base-100 shadow-lg px-5 lg:px-12 py-5">
       <p className="text-2xl font-medium">ถึงเวลาจ่ายละจ้าาาาา 🎉</p>
@@ -13,6 +17,9 @@ export default function DueDateListCard({ members }: propsType) {
           <div
             className="h-24 w-full hover:bg-base-200 hover:cursor-pointer ease-in-out duration-150 flex px-4 justify-between items-center"
             key={e.id}
+            onClick={() => {
+              router.push(`/${familyDetail?.token}/member/${e.id}`);
+            }}
           >
             <div className="flex gap-10 items-center">
               <div className="avatar">

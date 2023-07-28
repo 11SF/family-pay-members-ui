@@ -2,6 +2,7 @@ import { MemberAcheievement } from "@/models/achievement";
 import { Member } from "@/models/family";
 import { familyStore } from "@/stores/store";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 interface propsType {
   member: Member;
@@ -9,10 +10,12 @@ interface propsType {
 }
 
 export default function MemberCard({ member, achievement }: propsType) {
+  const router = useRouter();
   const getMemberAchievementByMemberId = familyStore(
     (state) => state.getMemberAchievementByMemberId
   );
   const memberAchievement = familyStore((state) => state.memberAchievement);
+  const familyDetail = familyStore((state) => state.familyDetail);
 
   memberAchievement;
   const [_achievement, setAchievement] = useState<MemberAcheievement | null>(
@@ -25,7 +28,12 @@ export default function MemberCard({ member, achievement }: propsType) {
     }
   }, [memberAchievement]);
   return (
-    <div className="card bg-base-100 w-[28rem] p-10 hover:scale-105 hover:cursor-pointer ease-in-out duration-150">
+    <div
+      className="card bg-base-100 w-[28rem] p-10 hover:scale-105 hover:cursor-pointer ease-in-out duration-150"
+      onClick={() => {
+        router.push(`/${familyDetail?.token}/member/${member.id}`);
+      }}
+    >
       <div className="flex gap-10 items-center">
         <div className="avatar">
           <div className="w-24 rounded-full ring ring-success ring-offset-base-100 ring-offset-2">

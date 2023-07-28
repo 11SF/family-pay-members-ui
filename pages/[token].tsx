@@ -115,7 +115,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="w-full bg-neutral mt-8 flex justify-center">
+          <section className="w-full bg-neutral mt-8 pb-24 flex justify-center">
             <div className="h-full container mx-auto">
               <p className="text-3xl text-center my-10 text-white">
                 🌟 สมาชิกทั้งหมด 🌟
