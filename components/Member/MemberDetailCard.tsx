@@ -17,7 +17,6 @@ export default function MemberDetailCard({ member }: propsType) {
   const transactions = familyStore((state) => state.transactions);
   const memberAchievement = familyStore((state) => state.memberAchievement);
 
-
   const [_achievement, setAchievement] = useState<MemberAcheievement | null>(
     null
   );
@@ -123,17 +122,29 @@ export default function MemberDetailCard({ member }: propsType) {
       <div className="my-10 block sm:hidden mx-auto">
         <div className="flex flex-col gap-8 justify-center items-center">
           <div className="avatar">
-            <div className="w-36 rounded-full ring ring-warning ring-offset-base-100 ring-offset-2">
-              <img src={member.imageSrc} className="w-fit h-fit" />
-            </div>
+            {getCountdownExpire(member.expireDate) > 0 ? (
+              <div className="w-36 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src={member.imageSrc} className="w-fit h-fit" />
+              </div>
+            ) : (
+              <div className="w-36 rounded-full ring ring-warning ring-offset-base-100 ring-offset-2">
+                <img src={member.imageSrc} className="w-fit h-fit" />
+              </div>
+            )}
           </div>
           <div className="text-center w-full flex flex-col gap-3 items-center justify-center">
             <p className="text-lg md:text-2xl overflow-hidden mx-auto">
               {member.name}
             </p>
-            <div className="badge badge-warning text-white py-4 mx-auto">
-              ถึงเวลาจ่ายแล้วจ้าาา
-            </div>
+            {getCountdownExpire(member.expireDate) > 0 ? (
+              <div className="badge badge-primary text-white py-4 mx-auto">
+                จ่ายแล้วจ้าาาา
+              </div>
+            ) : (
+              <div className="badge badge-warning text-white py-4 mx-auto">
+                ถึงเวลาจ่ายแล้วจ้าาา
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-10">
