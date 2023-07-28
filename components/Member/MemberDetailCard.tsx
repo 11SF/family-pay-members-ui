@@ -15,26 +15,31 @@ export default function MemberDetailCard({ member }: propsType) {
   );
   const getTransaction = familyStore((state) => state.getTransaction);
   const transactions = familyStore((state) => state.transactions);
+  const memberAchievement = familyStore((state) => state.memberAchievement);
+
 
   const [_achievement, setAchievement] = useState<MemberAcheievement | null>(
     null
   );
   const [_transaction, setTransaction] = useState<Transaction[]>([]);
   useEffect(() => {
-    let result = getMemberAchievementByMemberId(member.id);
     let transactionResult = getTransaction({ memberId: member.id });
-    if (result) {
-      setAchievement(result);
-    }
     if (transactionResult.length > 0) {
       setTransaction(transactionResult);
     }
   }, [transactions]);
 
+  useEffect(() => {
+    let result = getMemberAchievementByMemberId(member.id);
+    if (result) {
+      setAchievement(result);
+    }
+  }, [memberAchievement]);
+
   const getCountdownExpire = (memberExpire: Date) => {
     const now = new Date();
 
-    const diffTime = memberExpire.getTime() - now.getTime()
+    const diffTime = memberExpire.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     return diffDays;

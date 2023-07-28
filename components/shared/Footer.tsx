@@ -19,7 +19,7 @@ export default function Footer() {
         <p>
           11SF
           <br />
-          Family Pay version 1.0.1
+          Family Pay version 1.0.2
         </p>
       </div>
       <div>
