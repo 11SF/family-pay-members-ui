@@ -1,6 +1,8 @@
 import React from "react";
 import lineQr from "@/assets/line-qr.png";
 import Image from "next/image";
+import { version } from "@/package.json";
+
 export default function Footer() {
   return (
     <footer className="footer p-10 bg-base-200 text-base-content">
@@ -19,7 +21,7 @@ export default function Footer() {
         <p>
           11SF
           <br />
-          Family Pay version 1.0.3
+          Family Pay version {version}
         </p>
       </div>
       <div>

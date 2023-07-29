@@ -9,7 +9,7 @@ import { AverageInfo } from "@/models/achievement";
 import { Transaction } from "@/models/transaction";
 import { initAchievement } from "@/services/calculateAchievement ";
 import { familyStore } from "@/stores/store";
-import { getDateFormat } from "@/utils/date";
+import { getDateFormat, getDateThaiFormat } from "@/utils/date";
 import { kanit } from "@/utils/fontsStyle";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -146,7 +146,7 @@ export default function Member() {
 
           <section className="w-full bg-neutral mt-8 pb-24 flex justify-center">
             <div className="h-full container mx-auto">
-              <p className="text-3xl text-center my-10 text-white">
+              <p className="text-[5vw] sm:text-3xl text-center my-10 text-white">
                 🌟 ประวัติการจ่ายเงินของ {getMember(id as string)?.name} 🌟
               </p>
               <div className="overflow-x-auto">
@@ -158,7 +158,7 @@ export default function Member() {
                       <th>ราคาจ่าย</th>
                       <th>วันหมดอายุเดิม</th>
                       <th>วันหมดอายุใหม่</th>
-                      <th>สถานะ</th>
+                      <th className="text-center">สถานะ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -173,21 +173,21 @@ export default function Member() {
                           <th>
                             {i === 0 ? (
                               <div className="flex gap-5 items-center">
-                                {getDateFormat(new Date(e.createdAt ?? ""))}
+                                {getDateThaiFormat(new Date(e.createdAt ?? ""))}
                                 <div className="badge badge-primary badge-xs text-white py-4">
                                   ล่าสุด
                                 </div>
                               </div>
                             ) : (
                               <div>
-                                {getDateFormat(new Date(e.createdAt ?? ""))}
+                                {getDateThaiFormat(new Date(e.createdAt ?? ""))}
                               </div>
                             )}
                           </th>
                           <td>{e.price}</td>
                           <td>{getDateFormat(new Date(e.oldExpireDate))}</td>
                           <td>{getDateFormat(new Date(e.newExpireDate))}</td>
-                          <td>
+                          <td className="flex justify-center">
                             {e.status === "active" ? (
                               <div className="badge badge-success text-white py-4">
                                 {e.status}
