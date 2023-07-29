@@ -13,6 +13,7 @@ interface propsType {
 export default function PaymentCard({ paymentDetail }: propsType) {
   const [qrPayload, setQrPayload] = useState(null);
   const [priceSelected, setPriceSelected] = useState(paymentDetail.prices[0]);
+  const [copyState, setCopyState] = useState("คัดลอก");
 
   useEffect(() => {
     setQrPayload(
@@ -33,7 +34,13 @@ export default function PaymentCard({ paymentDetail }: propsType) {
               {getPhoneNumberFormat(paymentDetail.ppNumber)}
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center hover:cursor-pointer hover:scale-105">
+          <div
+            className="flex flex-col items-center justify-center hover:cursor-pointer hover:scale-105 w-20"
+            onClick={() => {
+              navigator.clipboard.writeText(paymentDetail.ppNumber);
+              setCopyState("คัดลอกแล้ว")
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -49,7 +56,7 @@ export default function PaymentCard({ paymentDetail }: propsType) {
               />
             </svg>
 
-            <p>copy</p>
+            <p className="text-sm">{copyState}</p>
           </div>
         </div>
 
