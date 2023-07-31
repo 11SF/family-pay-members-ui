@@ -2,7 +2,11 @@ import { MemberAcheievement } from "@/models/achievement";
 import { Member } from "@/models/family";
 import { Transaction } from "@/models/transaction";
 import { familyStore } from "@/stores/store";
-import { getCountdownExpire, getDateFormat, getDateThaiFormat } from "@/utils/date";
+import {
+  getCountdownExpire,
+  getDateFormat,
+  getDateThaiFormat,
+} from "@/utils/date";
 import { useState, useEffect } from "react";
 
 interface propsType {
@@ -35,13 +39,12 @@ export default function MemberDetailCard({ member }: propsType) {
     }
   }, [memberAchievement]);
 
-
   return (
     <div className="card lg:w-[32rem] xl:w-7/12 h-fit  bg-base-100 shadow-lg px-5 lg:px-12 py-5">
       <div className="my-10 divide-x sm:flex hidden">
         <div className="w-5/12 flex flex-col gap-8 justify-center items-center">
           <div className="avatar">
-            {getCountdownExpire(member.expireDate) > 0 ? (
+            {getCountdownExpire(member.expireDate) >= 1 ? (
               <div className="w-36 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <img src={member.imageSrc} className="w-fit h-fit" />
               </div>
@@ -55,7 +58,7 @@ export default function MemberDetailCard({ member }: propsType) {
             <p className="text-lg md:text-2xl overflow-hidden mx-auto">
               {member.name}
             </p>
-            {getCountdownExpire(member.expireDate) > 0 ? (
+            {getCountdownExpire(member.expireDate) >= 1 ? (
               <div className="badge badge-primary text-white py-4 mx-auto">
                 จ่ายแล้วจ้าาาา
               </div>
@@ -90,7 +93,17 @@ export default function MemberDetailCard({ member }: propsType) {
               </div>
               <div className="flex flex-col gap-2">
                 <p>{getDateThaiFormat(member.expireDate)}</p>
-                <p className={getCountdownExpire(member.expireDate) <= 0 ? getCountdownExpire(member.expireDate) == 0 ? "text-warning" : "text-error" : ""}>{getCountdownExpire(member.expireDate)} วัน</p>
+                <p
+                  className={
+                    getCountdownExpire(member.expireDate) <= 0
+                      ? getCountdownExpire(member.expireDate) == 0
+                        ? "text-warning"
+                        : "text-error"
+                      : ""
+                  }
+                >
+                  {getCountdownExpire(member.expireDate)} วัน
+                </p>
               </div>
             </div>
           </div>

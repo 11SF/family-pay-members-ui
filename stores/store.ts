@@ -106,10 +106,10 @@ const familyStore = create<FamilyState>()((set, get) => ({
     getMemberDueDateList: (): Member[] => {
         const now = new Date();
 
-        // return get().member.filter(e => e.expireDate.getTime() <= nowDate.getTime())
         return get().member.filter(e => {
             const diffTime = e.expireDate.getTime() - now.getTime()
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
             return diffDays <= 0
         })

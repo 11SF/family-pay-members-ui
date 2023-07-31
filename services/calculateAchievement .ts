@@ -68,7 +68,8 @@ export const initAchievement = (members: Member[], transactions: Transaction[], 
 
     let topSpenders = memberAverageInfo.filter(e => e.totalPrice === Math.max(...memberAverageInfo.map(e => (e.totalPrice))))
     for (const member of memberAverageInfo) {
-        if (member.averageDateOverdue <= 2) {
+        console.log(member.memberId);
+        if (member.averageDateOverdue <= 1) {
             member.acheivements.push(achievement[2].name) // เสือโอนไว
         }
         if (topSpenders.find(e => e.memberId === member.memberId)) {
